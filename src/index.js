@@ -5,6 +5,7 @@ import JobManager from './components/JobManager';
 import 'bootstrap3/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './css/style.scss';
+import demo from './trainning/demo'
 
 ReactDOM.render(
     <JobManager/>,
