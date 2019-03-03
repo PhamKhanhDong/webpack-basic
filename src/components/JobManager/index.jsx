@@ -35,33 +35,33 @@ export default class JobManager extends React.Component {
                 id: this.generateID(),
                 name: 'Học lập trình',
                 status: true
-        
+
             },
             {
                 id: this.generateID(),
                 name: 'Đi bơi',
                 status: false
-        
+
             },
             {
                 id: this.generateID(),
                 name: 'Đi ngủ',
                 status: true
-        
+
             }
         ];
         this.setState({tasks: tasks});
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
-    
+
     s4() {
         return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
     }
-    
+
     generateID() {
         return(`${this.s4()}-${this.s4()}-${this.s4()}`);
     }
-    
+
     onToggleForm = () => {
         this.setState({
             isDisplayForm: true,
@@ -74,13 +74,13 @@ export default class JobManager extends React.Component {
             isDisplayForm: true,
         });
     }
-    
+
     onCloseForm = () => {
         this.setState({
             isDisplayForm: false,
         });
     }
-    
+
     onSubmit = (data) => {
         let {tasks} = this.state;
         if (data.id) {
@@ -133,7 +133,7 @@ export default class JobManager extends React.Component {
                 status: filterStatus
             }
         });
-        
+
         // console.log(filterName, '-' ,filterStatus);
     }
 
@@ -149,16 +149,14 @@ export default class JobManager extends React.Component {
                 value: sortValue
             }
         });
-
-        console.log(sortBy, ' ', sortValue);
     }
 
     render() {
         let {
-            tasks, 
-            isDisplayForm, 
-            taskEditing, 
-            filter, 
+            tasks,
+            isDisplayForm,
+            taskEditing,
+            filter,
             keyWord,
             sort
         } = this.state;
@@ -169,7 +167,7 @@ export default class JobManager extends React.Component {
                     return task.name.toLowerCase().includes(filter.name.toLowerCase());
                 });
             }
-            
+
             tasks = tasks.filter(task => {
                 if (filter.status == -1) return task;
                 else
@@ -189,7 +187,7 @@ export default class JobManager extends React.Component {
                 else if (a.name < b.name) return -sort.value;
                 else return 0;
             });
-        } else {
+        } else if(sort.by == 'status') {
             tasks.sort((a, b) => {
                 if (a.status > b.status) return -sort.value;
                 else if (a.status < b.status) return sort.value;
@@ -198,12 +196,12 @@ export default class JobManager extends React.Component {
         }
 
 
-        let elmTaskForm = isDisplayForm 
-            ? <TaskForm 
-                onSubmit={this.onSubmit} 
-                onCloseForm={this.onCloseForm} 
+        let elmTaskForm = isDisplayForm
+            ? <TaskForm
+                onSubmit={this.onSubmit}
+                onCloseForm={this.onCloseForm}
                 taskEditing={taskEditing}
-            /> 
+            />
             : '';
         return(
             <div className="container">
@@ -216,8 +214,8 @@ export default class JobManager extends React.Component {
                         {elmTaskForm}
                     </div>
                     <div className={ isDisplayForm ? 'col-xs-8 col-sm-8 col-md-8 col-lg-8' : 'col-xs-12 col-sm-12 col-md-12 col-lg-12'}>
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             className="btn btn-primary"
                             onClick={() => this.onToggleForm()}
                         >
@@ -229,8 +227,8 @@ export default class JobManager extends React.Component {
                         <Control onSearch={this.onSearch} onSort={this.onSort} sort={sort}/>
                         <div className="row mt-15">
                             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <TaskList 
-                                    tasks={tasks} 
+                                <TaskList
+                                    tasks={tasks}
                                     onUpdateStatus={this.onUpdateStatus}
                                     onDelete={this.onDelete}
                                     onUpdate={this.onUpdate}
